@@ -69,7 +69,7 @@ def handle_message(event):
             # 写入表格: [User ID, Item ID, Date, Status]
             sheet.append_row([user_id, item_id, timestamp, "BORROWED"])
             
-            reply = f"✅ 登记成功！\n物品: {item_id}\n时间: {timestamp}\n请记得在 {OVERDUE_DAYS} 天内归还。"
+            reply = f"✅ register succeeded！\nitem: {item_id}\ntime: {timestamp}\nRemember to return it in {OVERDUE_DAYS} days!"
         except Exception as e:
             print(e)
             reply = "❌ System error, unable to connect to the database."

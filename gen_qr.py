@@ -7,7 +7,6 @@ BOT_BASIC_ID = os.getenv("BOT_BASIC_ID")
 CONTAINER_ID = input("Enter container ID: ")
 
 # 3. 构造预填文字
-# 我们约定格式为："borrow TEST-001"
 text_message = f"borrow {CONTAINER_ID}"
 
 # 4. URL 编码 (因为 URL 里不能有空格和中文，需要转义)
@@ -27,5 +26,4 @@ qr.make(fit=True)
 img = qr.make_image(fill='black', back_color='white')
 img.save("bot_qr.png")
 print("saved as bot_qr.png")
-import os
 os.system("open bot_qr.png")
