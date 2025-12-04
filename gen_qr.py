@@ -1,11 +1,10 @@
+import os
 import qrcode
 import urllib.parse
 
-# 1. 你的 Bot ID (在 Messaging API 页面的最上方，通常是以 @ 开头的，比如 @123abcde)
-# 注意：一定要带 @ 符号
-BOT_BASIC_ID = "@2008616144" 
+BOT_BASIC_ID = os.getenv("BOT_BASIC_ID")
 
-CONTAINER_ID = "TEST-001"
+CONTAINER_ID = input("Enter container ID: ")
 
 # 3. 构造预填文字
 # 我们约定格式为："borrow TEST-001"
