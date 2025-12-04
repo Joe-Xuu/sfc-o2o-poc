@@ -31,7 +31,7 @@ SHEET_NAME = os.getenv("GOOGLE_SHEET_NAME")
 SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
 OVERDUE_DAYS = int(os.getenv("OVERDUE_DAYS", 3))
 
-# 连接 Google Sheets
+# connect to Google Sheets
 def get_worksheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     # read local service_account.json
