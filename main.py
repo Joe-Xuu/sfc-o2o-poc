@@ -34,8 +34,19 @@ OVERDUE_DAYS = int(os.getenv("OVERDUE_DAYS", 3))
 # connect to Google Sheets
 def get_worksheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-    # read local service_account.json
-    creds = ServiceAccountCredentials.from_json_keyfile_name('service_account.json', scope)
+
+    # 优先尝试从环境变量读取 JSON 字符串 on Render
+    google_json_str = os.getenv("GOOGLE_JSON")
+
+    if google_json_str:
+        # 如果环境变量存在，解析字符串为字典
+        creds_dict = json.loads(google_json_str)
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    elif os.path.exists('service_account.json'):
+        # 如果环境变量不存在，回退到读取本地文件 (本地测试环境)
+        creds = ServiceAccountCredentials.from_json_keyfile_name('service_account.json', scope)
+    else:
+        raise FileNotFoundError("Google service account credentials not found.")
     client = gspread.authorize(creds)
     return client.open_by_url(SHEET_URL).sheet1
 
