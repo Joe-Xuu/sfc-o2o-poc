@@ -1,0 +1,3 @@
+- 12/03 Initial Commit
+- 12/04 Ngrok backend deployment experiment succeeded
+- 12/05 Render Deployment succeeded (free account)
