@@ -18,37 +18,6 @@ A Proof of Concept (PoC) system for tracking item borrowing and returning using 
 ## System Architecture
 ```mermaid
 graph TD
-subgraph User Interaction
-User[User] -- 1. Scan QR --> LINE[LINE App]
-User -- 4. Tap NFC/RFID Tag --> M5["M5Stack/Other Device(From K-CR Inc.)"]
-end
-
-subgraph "K-CR Inc. Backend"
-M5 -- API Request --> K-CR[K-CR Backend]
-end
-
-subgraph "Cloud Backend (Render)"
-LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
-K-CR -- 5. API Request --> GSheet[("Google Sheets (only for PoC)")]
-FastAPI -- 3. Reply/Push --> LINE
-FastAPI -- 6. Read/Write --> GSheet
-end
-
-subgraph "Database (in production environment)"
-FastAPI -- 1. API Request --> Database[("PostgreSQL DB")]
-FastAPI -- 2. Read/Write --> Database
-end
-
-subgraph Reminder System
-Cron[UptimeRobot / Cron] -- Daily Trigger --> FastAPI
-FastAPI -- Check Overdue --> GSheet
-FastAPI -- Send Reminder --> LINE
-FastAPI -- Check Overdue --> Database
-end
-```
-
-```mermaid
-graph TD
     classDef user fill:#f9f,stroke:#333,stroke-width:2px,color:black;
     classDef logic fill:#bbf,stroke:#333,stroke-width:2px,color:black;
     classDef data fill:#ff9,stroke:#333,stroke-width:2px,color:black;
@@ -101,6 +70,38 @@ graph TD
 
     linkStyle default interpolate basis
 ```
+
+```mermaid
+graph TD
+subgraph User Interaction
+User[User] -- 1. Scan QR --> LINE[LINE App]
+User -- 4. Tap NFC/RFID Tag --> M5["M5Stack/Other Device(From K-CR Inc.)"]
+end
+
+subgraph "K-CR Inc. Backend"
+M5 -- API Request --> K-CR[K-CR Backend]
+end
+
+subgraph "Cloud Backend (Render)"
+LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
+K-CR -- 5. API Request --> GSheet[("Google Sheets (only for PoC)")]
+FastAPI -- 3. Reply/Push --> LINE
+FastAPI -- 6. Read/Write --> GSheet
+end
+
+subgraph "Database (in production environment)"
+FastAPI -- 1. API Request --> Database[("PostgreSQL DB")]
+FastAPI -- 2. Read/Write --> Database
+end
+
+subgraph Reminder System
+Cron[UptimeRobot / Cron] -- Daily Trigger --> FastAPI
+FastAPI -- Check Overdue --> GSheet
+FastAPI -- Send Reminder --> LINE
+FastAPI -- Check Overdue --> Database
+end
+```
+
 Copyright (c) 2025 Kouzen Jo. Powerer by Mermaid
 
 ## Tech Stack
