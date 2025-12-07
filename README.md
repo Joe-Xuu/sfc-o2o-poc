@@ -19,33 +19,57 @@ A Proof of Concept (PoC) system for tracking item borrowing and returning using 
 
 ```mermaid
 graph TD
-    subgraph User Interaction
-        User[User] -- 1. Scan QR --> LINE[LINE App]
-        User -- 4. Tap NFC/RFID Tag --> M5["M5Stack/Other Device(From K-CR Inc.)"]
+    classDef user fill:#f9f,stroke:#333,stroke-width:2px,color:black;
+    classDef logic fill:#bbf,stroke:#333,stroke-width:2px,color:black;
+    classDef data fill:#ff9,stroke:#333,stroke-width:2px,color:black;
+    classDef ext fill:#ddd,stroke:#333,stroke-width:2px,color:black;
+    classDef cron fill:#f66,stroke:#333,stroke-width:2px,color:white;
+
+    subgraph "User Interaction"
+        User((User)):::user
+        LINE[LINE App]:::ext
+        M5["M5Stack/IoT Device"]:::ext
     end
 
-        subgraph "K-CR Inc. Backend"
-        M5 -- API Request --> K-CR[K-CR Backend]
+    subgraph "Logic Layer (Render/K-CR)"
+        FastAPI[FastAPI Backend]:::logic
+        KCR[K-CR Backend]:::logic
+    end
+    
+    subgraph "Data Persistence"
+        GSheet[("Google Sheets<br/>(PoC Only)")]:::data
+        Database[("PostgreSQL DB<br/>(Production)")]:::data
     end
 
-    subgraph "Cloud Backend (Render)"
-        LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
-        K-CR -- 5. API Request --> GSheet[("Google Sheets (only for PoC)")]
-        FastAPI -- 3. Reply/Push --> LINE
-        FastAPI -- 6. Read/Write --> GSheet
+    subgraph "Automation"
+        Cron{{UptimeRobot / Cron}}:::cron
     end
 
-    subgraph "Database (in production environment)"
-        FastAPI -- 1. API Request --> Database[("PostgreSQL DB")]
-        FastAPI -- 2. Read/Write --> Database
-    end
+    %% 连线关系
+    User -- 1. Scan QR --> LINE
+    User -- 4. Tap NFC --> M5
+    
+    M5 -- API Request --> KCR
+    LINE -- 2. Webhook --> FastAPI
+    
+    %% Backend Logic
+    KCR -. 5. Write Data .-> GSheet
+    FastAPI -- 3. Reply/Push --> LINE
+    FastAPI -- 6. Read/Write --> GSheet
+    
+    %% Production Logic
+    FastAPI == 1. API Request ==> Database
+    FastAPI == 2. Read/Write ==> Database
+    
+    %% Reminder Logic
+    Cron -- Daily Trigger --> FastAPI
+    FastAPI -. Check Overdue .-> GSheet
+    FastAPI -. Check Overdue .-> Database
+    
+    LINE ~~~ FastAPI
+    FastAPI ~~~ Database
 
-    subgraph Reminder System
-        Cron[UptimeRobot / Cron] -- Daily Trigger --> FastAPI
-        FastAPI -- Check Overdue --> GSheet
-        FastAPI -- Send Reminder --> LINE
-        FastAPI -- Check Overdue --> Database
-    end
+    linkStyle default interpolate basis
 ```
 Copyright (c) 2025 Kouzen Jo. Powerer by Mermaid
 
