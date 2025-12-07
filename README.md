@@ -53,7 +53,7 @@ graph TD
     LINE -- 2. Webhook --> FastAPI
     
     %% Backend Logic
-    KCR -. 5. Write Data .-> GSheet
+    KCR -. "5. Write Data ".-> GSheet
     FastAPI -- 3. Reply/Push --> LINE
     FastAPI -- 6. Read/Write --> GSheet
     
