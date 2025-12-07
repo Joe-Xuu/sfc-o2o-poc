@@ -109,11 +109,11 @@ Copyright (c) 2025 Kouzen Jo. Powerer by Mermaid
 
 - Interface: LINE Messaging API (Chatbot)
 
-- Database: Google Sheets (via gspread & Google Drive API)
+- Database: Google Sheets (via gspread & Google Drive API) / PostgreSQL
 
-- Hardware Endpoint: M5Stack AtomS3 + RFID Unit (C++)
+- Hardware Endpoint: K-CR RFID Device / M5Stack AtomS3 + RFID Unit (C++) - Current Design
 
-- Deployment: Render.com
+- Deployment: Render.com / K-CR Inc.
 
 ## Setup & Installation
 **Prerequisites**
