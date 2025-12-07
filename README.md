@@ -30,17 +30,24 @@ graph TD
 
     subgraph "Cloud Backend (Render)"
         LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
-        K-CR -- 5. API Request --> GSheet[(Google Sheets)]
+        K-CR -- 5. API Request --> GSheet[("Google Sheets (only for PoC)")]
         FastAPI -- 3. Reply/Push --> LINE
         FastAPI -- 6. Read/Write --> GSheet
+    end
+
+    subgraph "Database (in production environment)"
+        FastAPI -- 1. API Request --> Database[("PostgreSQL DB")]
+        FastAPI -- 2. Read/Write --> Database
     end
 
     subgraph Reminder System
         Cron[UptimeRobot / Cron] -- Daily Trigger --> FastAPI
         FastAPI -- Check Overdue --> GSheet
         FastAPI -- Send Reminder --> LINE
+        FastAPI -- Check Overdue --> Database
     end
 ```
+Copyright (c) 2025 Kouzen Jo. Powerer by Mermaid
 
 ## Tech Stack
 - Backend: Python, FastAPI, Uvicorn
@@ -149,4 +156,4 @@ GET	/api/cron/check_overdue	Trigger this manually or via a cron job service (e.g
 
 ## License
 This project is licensed under the MIT License.
-Kouzen Jo. 2025.
+Copyright (c) 2025 Kouzen Jo
