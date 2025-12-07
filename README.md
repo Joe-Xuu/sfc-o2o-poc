@@ -21,14 +21,18 @@ A Proof of Concept (PoC) system for tracking item borrowing and returning using 
 graph TD
     subgraph User Interaction
         User[User] -- 1. Scan QR --> LINE[LINE App]
-        User -- 4. Tap NFC Card --> M5[M5Stack Device]
+        User -- 4. Tap NFC/RFID Tag --> M5[M5Stack/Other Device(From K-CR Inc.)]
+    end
+
+        subgraph "K-CR Inc. Backend"
+        M5 -- API Request --> K-CR[K-CR Backend]
     end
 
     subgraph "Cloud Backend (Render)"
         LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
-        M5 -- 5. API Request --> FastAPI
+        K-CR -- 5. API Request --> GSheet[(Google Sheets)]
         FastAPI -- 3. Reply/Push --> LINE
-        FastAPI -- 6. Read/Write --> GSheet[(Google Sheets)]
+        FastAPI -- 6. Read/Write --> GSheet
     end
 
     subgraph Reminder System
