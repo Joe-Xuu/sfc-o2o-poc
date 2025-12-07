@@ -21,7 +21,7 @@ A Proof of Concept (PoC) system for tracking item borrowing and returning using 
 graph TD
     subgraph User Interaction
         User[User] -- 1. Scan QR --> LINE[LINE App]
-        User -- 4. Tap NFC/RFID Tag --> M5[M5Stack/Other Device(From K-CR Inc.)]
+        User -- 4. Tap NFC/RFID Tag --> M5["M5Stack/Other Device(From K-CR Inc.)"]
     end
 
         subgraph "K-CR Inc. Backend"
