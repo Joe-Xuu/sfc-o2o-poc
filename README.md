@@ -24,7 +24,7 @@ graph TD
         User -- 4. Tap NFC Card --> M5[M5Stack Device]
     end
 
-    subgraph Cloud[“Cloud Backend (Render)”]
+    subgraph “Cloud Backend (Render)”
         LINE -- 2. Webhook --> FastAPI[FastAPI Backend]
         M5 -- 5. API Request --> FastAPI
         FastAPI -- 3. Reply/Push --> LINE
