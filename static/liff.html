@@ -28,6 +28,14 @@
                     return;
                 }
 
+                // 2. 【核心修复】检查是否有发消息的权限
+                const permissionStatus = await liff.permission.query('chat_message.write');
+                if (permissionStatus.state !== 'granted') {
+                    // 如果没有权限，强制弹出授权同意书
+                    alert("请在接下来的窗口中点击【允许】以发送借出请求");
+                    await liff.permission.requestAll();
+                }
+
                 // 2. 解析二维码里的参数 (?id=TEST-001)
                 const urlParams = new URLSearchParams(window.location.search);
                 const itemId = urlParams.get('id');
