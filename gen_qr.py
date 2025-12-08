@@ -2,7 +2,8 @@ import os
 import qrcode
 import urllib.parse
 
-BOT_BASIC_ID = os.getenv("BOT_BASIC_ID")
+# BOT_BASIC_ID = os.getenv("BOT_BASIC_ID")
+BOT_BASIC_ID = "@130cnftc"
 
 CONTAINER_ID = input("Enter container ID: ")
 
