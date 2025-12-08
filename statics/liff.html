@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing...</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        /* 加个加载圈，显得专业 */
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #06c755; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <script>
+        async function main() {
+            // ▼▼▼ 请替换成你刚才申请的 LIFF ID ▼▼▼
+            const MY_LIFF_ID = "2008653079-30XW9WnJ"; 
+
+            try {
+                await liff.init({ liffId: MY_LIFF_ID });
+
+                // 1. 检查登录状态
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                    return;
+                }
+
+                // 2. 解析二维码里的参数 (?id=TEST-001)
+                const urlParams = new URLSearchParams(window.location.search);
+                const itemId = urlParams.get('id');
+
+                if (!itemId) {
+                    alert("错误：二维码无效");
+                    liff.closeWindow();
+                    return;
+                }
+
+                // 3. 核心：代替用户发消息
+                // 注意：liff.sendMessages 只能在 LIFF 是由 Chat 打开时，或者你是 Login Channel 时发送
+                await liff.sendMessages([
+                    {
+                        type: 'text',
+                        text: `借出 ${itemId}` 
+                    }
+                ]);
+
+                // 4. 发送成功，直接关闭窗口
+                liff.closeWindow();
+
+            } catch (err) {
+                // 如果用户没有同意权限，或者网络错误
+                console.error(err);
+                // 可以在这里显示一个错误提示给用户
+                document.body.innerHTML = `<p style="color:red; text-align:center;">Error: ${err.message}</p>`;
+            }
+        }
+        main();
+    </script>
+</body>
+</html>

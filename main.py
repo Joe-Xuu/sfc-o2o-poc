@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timedelta
 from fastapi import FastAPI, Request, HTTPException
 from dotenv import load_dotenv
+from fastapi.staticfiles import StaticFiles
 
 # LINE SDK
 from linebot import LineBotApi, WebhookHandler
@@ -25,6 +26,8 @@ CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET")
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
+# Enable https://.../static/liff.html 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 2. Google Sheets Config
 SHEET_NAME = os.getenv("GOOGLE_SHEET_NAME")
