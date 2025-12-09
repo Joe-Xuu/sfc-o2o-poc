@@ -3,3 +3,4 @@ __pycache__/
 .env
 *.json
 .DS_Store
+gas-dev/return_qr_codes/
