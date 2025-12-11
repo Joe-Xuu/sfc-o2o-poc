@@ -4,7 +4,7 @@ from urllib.parse import quote
 
 # ================= 配置区域 =================
 
-LIFF_ID = "2008626930-AddPwDy7" 
+LIFF_ID = "" 
 
 # 定义要生成的容器 ID 列表
 CONTAINER_IDS = ["00001"]
